@@ -1,0 +1,48 @@
+# 开发环境配置
+kafka:
+  brokers:
+    - "localhost:9092"
+  topic: "event_topic"
+  group_id: "doris-sinker-dev"
+  from_earliest: true
+  max_fetch_records: 100
+  max_fetch_bytes: 102400  # 100KB
+  session_timeout: 30
+  heartbeat_interval: 3
+
+doris:
+  fe_hosts:
+    - "127.0.0.1:8030"
+  query_port: 9030
+  database: "test_db"
+  table: "tb_event"
+  user: "root"
+  password: ""
+  timeout: 60
+  max_retries: 3
+
+batch:
+  max_batch_rows: 1000
+  max_batch_size: 1048576  # 1MB
+  max_batch_interval: 10
+
+schema:
+  mode: "auto"
+  auto:
+    refresh_interval: 0
+    validate_on_start: true
+
+log:
+  level: "debug"
+  output: "stdout"
+  format: "console"
+  enable_sampling: false
+
+metrics:
+  enabled: true
+  port: 9090
+  path: "/metrics"
+
+pprof:
+  enabled: true
+  port: 6060
