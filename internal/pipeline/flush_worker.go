@@ -59,12 +59,11 @@ func (w *FlushWorker) worker(id int) {
 // Submit 提交flush任务
 func (w *FlushWorker) Submit(batch [][]interface{}) {
 	task := flushTask{batch: batch}
-	select {
-	case w.flushChan <- task:
-		// 提交成功
-	default:
-		logger.Warn("flush channel full, dropping batch", zap.Int("batch_size", len(batch)))
-	}
+
+	// 阻塞等待，确保数据不丢失
+	w.flushChan <- task
+
+	logger.Debug("flush task submitted", zap.Int("batch_size", len(batch)))
 }
 
 // doFlush 执行flush
