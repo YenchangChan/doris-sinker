@@ -90,7 +90,7 @@ func Init(cfg Config) error {
 		)
 	}
 
-	globalLogger = zap.New(core, zap.AddCaller(), zap.AddStacktrace(zapcore.ErrorLevel))
+	globalLogger = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1), zap.AddStacktrace(zapcore.ErrorLevel))
 
 	return nil
 }
